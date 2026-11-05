@@ -9,7 +9,7 @@
 
 ## Стек
 
-- JavaScript
+- TypeScript
 
 ## Установка
 
@@ -18,6 +18,8 @@
 ```bash
 git clone https://github.com/Cyecaid/react-urfu-project-81.git
 cd react-urfu-project-81
+make install
+make build
 ```
 
 ## Использование
