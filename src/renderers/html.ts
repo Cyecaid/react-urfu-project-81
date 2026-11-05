@@ -23,7 +23,7 @@ const controlRenderers: Record<FieldType, (field: FieldNode) => Tag> = {
 };
 
 const renderField = (field: FieldNode): string => {
-  const label = new Tag('label', { for: field.name }, escapeHtml(field.label));
+  const label = new Tag('label', { for: field.name, ...field.labelAttributes }, escapeHtml(field.label));
   const control = controlRenderers[field.as](field);
 
   return `${label.toString()}${control.toString()}`;
@@ -41,7 +41,7 @@ const renderNode = (node: FormNode): string => {
 const renderHtml = ({ action, method, children }: Form): string => {
   const body = children.map(renderNode).join('');
 
-  return new Tag('form', { action, method }, body).toString();
+  return new Tag('form', { method, action }, body).toString();
 };
 
 export default renderHtml;

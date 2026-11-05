@@ -6,7 +6,13 @@ export type Template = Record<string, unknown>;
 export const FIELD_TYPES = ['input', 'textarea'] as const;
 export type FieldType = (typeof FIELD_TYPES)[number];
 
-export type InputOptions = Attributes & { as?: FieldType };
+interface FieldOptions {
+  as?: FieldType;
+  label?: string;
+  labelHtml?: Attributes;
+}
+
+export type InputOptions = FieldOptions & Record<string, AttributeValue | Attributes | undefined>;
 
 export interface FormOptions {
   url?: string;
@@ -18,6 +24,7 @@ export interface FieldNode {
   as: FieldType;
   name: string;
   label: string;
+  labelAttributes: Attributes;
   value: string;
   attributes: Attributes;
 }

@@ -1,4 +1,6 @@
 import {
+  type AttributeValue,
+  type Attributes,
   FIELD_TYPES,
   type FieldType,
   type FormNode,
@@ -12,6 +14,12 @@ const isFieldType = (value: string): value is FieldType => (FIELD_TYPES as reado
 
 const capitalize = (text: string): string => text.charAt(0).toUpperCase() + text.slice(1);
 
+const isAttributeValue = (value: unknown): value is AttributeValue => typeof value === 'string' || typeof value === 'number';
+
+const pickAttributes = (options: Record<string, unknown>): Attributes => Object.fromEntries(
+  Object.entries(options).filter((entry): entry is [string, AttributeValue] => isAttributeValue(entry[1])),
+);
+
 const stringifyValue = (value: unknown): string => (value === null || value === undefined ? '' : String(value));
 
 export default class FormBuilder<T extends Template> {
@@ -24,7 +32,12 @@ export default class FormBuilder<T extends Template> {
       throw new Error(`Поля '${name}' в шаблоне нет`);
     }
 
-    const { as = 'input', ...attributes } = options;
+    const {
+      as = 'input',
+      label = capitalize(name),
+      labelHtml = {},
+      ...attributes
+    } = options;
 
     if (!isFieldType(as)) {
       throw new Error(`Неизвестный тип '${as}'.`);
@@ -34,9 +47,10 @@ export default class FormBuilder<T extends Template> {
       kind: 'field',
       as,
       name,
-      label: capitalize(name),
+      label,
+      labelAttributes: labelHtml,
       value: stringifyValue(this.template[name]),
-      attributes,
+      attributes: pickAttributes(attributes),
     });
   }
 

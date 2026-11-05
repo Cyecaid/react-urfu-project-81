@@ -45,7 +45,7 @@ const form = HexletCode.formFor(template, { method: 'post', url: '/users' }, (f)
 });
 
 console.log(form);
-// <form action="/users" method="post">
+// <form method="post" action="/users">
 //   <label for="name">Name</label>
 //   <input name="name" type="text" value="rob" class="user-input">
 //   <label for="job">Job</label>
@@ -56,6 +56,7 @@ console.log(form);
 
 - `formFor(template, options, callback)` — `options.url` задаёт `action` (дефолт - `#`), `options.method` - метод (по умолчанию `post`).
 - `f.input(name, options)` - поле с `<label>` и значением из `template[name]`. `as: 'textarea'` создаёт многострочное поле (дефолт - `cols="20" rows="40"`)
+- `label` и `labelHtml` в опциях `f.input` задают текст и атрибуты подписи: `f.input('name', { label: 'User', labelHtml: { class: 'form-label' } })`
 - `f.submit(text)` - кнопка отправки, дефолт текст - `Save`.
 - Если поля в шаблоне нет - бросается ошибка `Поля '<name>' нет в шаблоне`
 
