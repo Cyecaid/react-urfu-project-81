@@ -22,6 +22,15 @@ make install
 make build
 ```
 
+## Разработка
+
+```bash
+make lint
+make typecheck
+make test
+make test-coverage
+```
+
 ## Использование
 
 <!-- Добавьте примеры запуска и запись asciinema — именно это смотрит работодатель -->
