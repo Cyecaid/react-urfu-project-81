@@ -1,10 +1,14 @@
-import FormBuilder, { type Template } from './FormBuilder.js';
-import Tag from './Tag.js';
+import FormBuilder from './FormBuilder.js';
+import renderHtml from './renderers/html.js';
+import type { FormOptions, Template } from './types.js';
 
-export interface FormOptions {
-  url?: string;
-  method?: string;
-}
+export type {
+  FieldType,
+  FormOptions,
+  InputOptions,
+  Template,
+} from './types.js';
+export type { FormBuilder };
 
 export type FormBuildCallback<T extends Template> = (form: FormBuilder<T>) => void;
 
@@ -19,6 +23,6 @@ export default class HexletCode {
     const builder = new FormBuilder(template);
     build(builder);
 
-    return new Tag('form', { action: url, method }, builder.render()).toString();
+    return renderHtml({ action: url, method, children: builder.getNodes() });
   }
 }

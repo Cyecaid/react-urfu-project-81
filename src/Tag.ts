@@ -1,5 +1,5 @@
-export type AttributeValue = string | number;
-export type Attributes = Record<string, AttributeValue>;
+import escapeHtml from './escapeHtml.js';
+import type { Attributes } from './types.js';
 
 const SINGLE_TAGS = new Set([
   'area',
@@ -17,13 +17,6 @@ const SINGLE_TAGS = new Set([
   'wbr',
 ]);
 
-const escapeAttribute = (value: AttributeValue): string =>
-  String(value)
-    .replaceAll('&', '&amp;')
-    .replaceAll('"', '&quot;')
-    .replaceAll('<', '&lt;')
-    .replaceAll('>', '&gt;');
-
 export default class Tag {
   constructor(
     private readonly name: string,
@@ -37,7 +30,7 @@ export default class Tag {
 
   private renderAttributes(): string {
     return Object.entries(this.attributes)
-      .map(([key, value]) => ` ${key}="${escapeAttribute(value)}"`)
+      .map(([key, value]) => ` ${key}="${escapeHtml(String(value))}"`)
       .join('');
   }
 

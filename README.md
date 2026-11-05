@@ -33,7 +33,33 @@ make test-coverage
 
 ## Использование
 
-<!-- Добавьте примеры запуска и запись asciinema — именно это смотрит работодатель -->
+```ts
+import HexletCode from '@hexlet/code';
+
+const template = { name: 'rob', job: 'hexlet', gender: 'm' };
+
+const form = HexletCode.formFor(template, { method: 'post', url: '/users' }, (f) => {
+  f.input('name', { class: 'user-input' });
+  f.input('job', { as: 'textarea' });
+  f.submit('Wow');
+});
+
+console.log(form);
+// <form action="/users" method="post">
+//   <label for="name">Name</label>
+//   <input name="name" type="text" value="rob" class="user-input">
+//   <label for="job">Job</label>
+//   <textarea cols="20" rows="40" name="job">hexlet</textarea>
+//   <input type="submit" value="Wow">
+// </form>
+```
+
+- `formFor(template, options, callback)` — `options.url` задаёт `action` (дефолт - `#`), `options.method` - метод (по умолчанию `post`).
+- `f.input(name, options)` - поле с `<label>` и значением из `template[name]`. `as: 'textarea'` создаёт многострочное поле (дефолт - `cols="20" rows="40"`)
+- `f.submit(text)` - кнопка отправки, дефолт текст - `Save`.
+- Если поля в шаблоне нет - бросается ошибка `Поля '<name>' нет в шаблоне`
+
+Генератор возвращает HTML одной строкой, переносы в примере добавлены для читаемости.
 
 ---
 
